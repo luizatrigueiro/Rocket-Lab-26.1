@@ -1,0 +1,28 @@
+resources:
+  jobs:
+    Atividade_Medalhão:
+      name: Atividade Medalhão
+      schedule:
+        quartz_cron_expression: 29 0 13 * * ?
+        timezone_id: Brazil/East
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: Camada_Bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/trigueiroluiza90@gmail.com/bronze
+            source: WORKSPACE
+        - task_key: Camada_Silver
+          depends_on:
+            - task_key: Camada_Bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/trigueiroluiza90@gmail.com/silver
+            source: WORKSPACE
+        - task_key: Camada_Gold
+          depends_on:
+            - task_key: Camada_Silver
+          notebook_task:
+            notebook_path: /Workspace/Users/trigueiroluiza90@gmail.com/gold
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
